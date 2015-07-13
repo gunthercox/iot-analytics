@@ -1,0 +1,5 @@
+zorg==0.0.1
+requests
+
+# Install iotkit-lib-python from GitHub
+https://github.com/enableiot/iotkit-lib-python/archive/master.zip#egg=iotkit-lib-python

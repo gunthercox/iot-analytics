@@ -10,11 +10,12 @@ class BaseAnalyticsDriver(Driver):
     def __init__(self, options, connection):
         super(BaseAnalyticsDriver, self).__init__(options, connection)
 
+        self.device_id = options.get("device_id", "")
+
         self.commands += ["send"]
 
     def send(self, **kwargs):
-        # TODO: Throw not implemented exception.
-        pass
+        raise Exception("This method needs to be implemented by a child class")
 
 
 class Event(BaseAnalyticsDriver):
@@ -28,8 +29,6 @@ class Event(BaseAnalyticsDriver):
         self.TYPE = 'event'
 
     def send(self, **kwargs):
-        super(Event, self).send(**kwargs)
-
         details = {}
 
         category = kwargs.get("category", None)
@@ -48,6 +47,9 @@ class Event(BaseAnalyticsDriver):
         if value:
             details["ev"] = value
 
+        if self.device_id:
+            details["device_id"] = self.device_id
+
         return self.connection.http_send(self.TYPE, **details)
 
 
@@ -62,8 +64,6 @@ class Error(BaseAnalyticsDriver):
         self.TYPE = 'exception'
 
     def send(self, **kwargs):
-        super(Error, self).send(**kwargs)
-
         details = {}
 
         description = kwargs.get("description", "Exception")
@@ -89,8 +89,6 @@ class ApiResponseTime(BaseAnalyticsDriver):
         self.TYPE = 'timing'
 
     def send(self, **kwargs):
-        super(ApiResponseTime, self).send(**kwargs)
-
         details = {}
 
         timing_category = kwargs.get("timing_category", None)

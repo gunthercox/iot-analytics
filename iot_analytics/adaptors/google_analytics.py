@@ -7,7 +7,7 @@ class GoogleAnalytics(Adaptor):
     def __init__(self, options):
         super(GoogleAnalytics, self).__init__(options)
 
-        self.endpoint = "http://www.google-analytics.com/collect"
+        self.host = "http://www.google-analytics.com/collect"
 
         # Required parameters for each payload
         self._version = options.get("version", 1)
@@ -33,5 +33,5 @@ class GoogleAnalytics(Adaptor):
 
         print "serialized", serialized
 
-        return requests.post(self.endpoint, data=serialized)
+        return requests.post(self.host, data=serialized)
 
