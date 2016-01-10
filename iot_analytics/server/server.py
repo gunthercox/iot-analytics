@@ -19,14 +19,15 @@ class MainHandler(CorsMixin, RequestHandler):
 
         data = escape.json_decode(self.request.body)
 
-        tracking_id = data.pop("id", None)
-        event_type = data.pop("type", None)
-        Obj = get_model_for_type(event_type)
+        if "type" in data:
+            tracking_id = data.pop("id", None)
+            event_type = data.pop("type", None)
 
-        obj = Obj(tracking_id, event_type, data)
+            Obj = get_model_for_type(event_type)
+            obj = Obj(tracking_id, event_type, data)
 
-        if obj.is_valid():
-            self.database.add(obj)
+            if obj.is_valid():
+                self.database.add(obj)
 
 def make_database():
     from iot_analytics.interfaces import FileStorageInterface
