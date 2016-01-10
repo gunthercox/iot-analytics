@@ -4,7 +4,7 @@ class BaseEvent(object):
         """
         An account ID and an event type are required.
         """
-        if self.id and self.type and self.type in EVENT_TYPES:
+        if self.property_id and self.type and self.type in EVENT_TYPES:
             return True
 
         return False
@@ -28,11 +28,12 @@ class Event(BaseEvent):
     An example of an event may be something such as a button being pressed.
     """
 
-    def __init__(self, tracking_id, event_type, data):
-        self.id = tracking_id
-        self.type = event_type
+    def __init__(self, property_id, data):
+        self.property_id = property_id
+        self.type = 'event'
 
         self.fields = (
+            'device_id',
             'category',
             'action',
             'label',

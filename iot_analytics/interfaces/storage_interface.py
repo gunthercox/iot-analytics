@@ -2,10 +2,10 @@ class StorageInterface(object):
 
     def __init__(self):
         # Assume read and write permissions by default
-        self.permissions = (
+        self.permissions = [
             "read",
             "write",
-        )
+        ]
 
         self.initialize()
 

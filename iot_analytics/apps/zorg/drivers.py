@@ -1,34 +1,37 @@
 from zorg.driver import Driver
 
 
-class BaseAnalyticsDriver(Driver):
+class AnalyticDriver(Driver):
     """
-    Driver containing basic commands
-    used by all analytics drivers.
+    Driver containing basic commands used by all analytics drivers.
     """
 
     def __init__(self, options, connection):
-        super(BaseAnalyticsDriver, self).__init__(options, connection)
+        super(AnalyticDriver, self).__init__(options, connection)
 
-        self.device_id = options.get("device_id", "")
-
-        self.commands += ["send"]
+        self.commands += ['send']
 
     def send(self, **kwargs):
         raise Exception("This method needs to be implemented by a child class")
 
 
-class Error(BaseAnalyticsDriver):
+class Event(AnalyticDriver):
+
+    def send(self, **kwargs):
+        from iot_analytics.models import Event as IOTEvent
+
+        event = IOTEvent(self.connection.google_analytics.property_id, kwargs)
+
+        return self.connection.http_send(event)
+
+
+class Error(AnalyticDriver):
     """
     Driver for exception and error reporting.
     """
 
-    def __init__(self, options, connection):
-        super(Error, self).__init__(options, connection)
-
-        self.TYPE = 'exception'
-
     def send(self, **kwargs):
+        TYPE = 'exception'
         details = {}
 
         description = kwargs.get("description", "Exception")
@@ -37,10 +40,10 @@ class Error(BaseAnalyticsDriver):
         is_fatal = kwargs.get("is_fatal", 0)
         details["exf"] = is_fatal # eg: 1
 
-        return self.connection.http_send(self.TYPE, **details)
+        return self.connection.http_send(TYPE, **details)
 
 
-class ApiResponseTime(BaseAnalyticsDriver):
+class ApiResponseTime(AnalyticDriver):
     """
     Track multiple responses over time.
     Record the value of the amount of
@@ -48,12 +51,8 @@ class ApiResponseTime(BaseAnalyticsDriver):
     given response.
     """
 
-    def __init__(self, options, connection):
-        super(ApiResponseTime, self).__init__(options, connection)
-
-        self.TYPE = 'timing'
-
     def send(self, **kwargs):
+        TYPE = 'timing'
         details = {}
 
         timing_category = kwargs.get("timing_category", None)
@@ -72,31 +71,33 @@ class ApiResponseTime(BaseAnalyticsDriver):
         if timing_label:
             details["utt"] = timing_label # eg: 'jQuery'
 
-        return self.connection.http_send(self.TYPE, **details)
+        return self.connection.http_send(TYPE, **details)
 
 
-class ApiHit(BaseAnalyticsDriver):
+class ApiHit(AnalyticDriver):
 
-    def __init__(self):
-        self.type = 'pageview'
-        self.hostname = 'mydemo.com'
-        self.page = '/api/blah'
-        self.title = 'homepage'
+    def send(self, **kwargs):
+        type = 'pageview'
+        hostname = 'mydemo.com'
+        page = '/api/blah'
+        title = 'homepage'
 
 
-class BatteryPerformance(BaseAnalyticsDriver):
+class BatteryPerformance(AnalyticDriver):
     """
     Track the voltage level of the battery
     over time. Note when charging and discharging.
     """
-    pass
+
+    def send(self, **kwargs):
+        pass
 
 
-class Geolocation(BaseAnalyticsDriver):
+class Geolocation(AnalyticDriver):
     """
-    Record the current coordinate of the
-    robot at a give time.
+    Record the current coordinate of the robot at a give time.
     """
-    pass
-    # How to include this data?
+
+    def send(self, **kwargs):
+        pass
 

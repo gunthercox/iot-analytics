@@ -15,10 +15,12 @@ class FileStorageInterface(StorageInterface):
         if not self.can("write"):
             return False
 
-        self.storage.insert({
-            'id': event.id,
+        data = {
+            'id': event.property_id,
             'type': event.type,
-            'date': datetime.now(),
-            'data': event.data
-        })
+            'date': datetime.now()
+        }
 
+        data.update(event.data)
+
+        self.storage.insert(data)

@@ -24,7 +24,7 @@ class MainHandler(CorsMixin, RequestHandler):
             event_type = data.pop("type", None)
 
             Obj = get_model_for_type(event_type)
-            obj = Obj(tracking_id, event_type, data)
+            obj = Obj(tracking_id, data)
 
             if obj.is_valid():
                 self.database.add(obj)

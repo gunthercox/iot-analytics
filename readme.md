@@ -6,6 +6,12 @@ This is a python module designed to provide the tools and resources needed to ga
 
 There are many examples of programmers using services such as [Google Analytics](https://analytics.google.com) to track everything from doors opening in a home to trips to the store. Check out this [this great blog post](http://nicomiceli.com/tracking-your-home-with-google-analytics/) by Nico Miceli for an example.
 
+## Installation
+
+```
+pip install iot-analytics
+```
+
 # Project design
 This module has two main components
 
@@ -23,13 +29,11 @@ This module has two main components
 
 Analytics is the discovery and communication of meaningful patterns in data. It is not possible for humans to easily extract meaning from a collection of billions of database entries. The goal of the data analysis portion of this project is to provide tools that make it easier to view and process data in a way that makes data features and trends more apparent.
 
-## Installation
+# Apps
 
-```
-pip install iot-analytics
-```
+This project includes an `apps` submodule which adds support for integration
+with the [Zorg](https://github.com/zorg-framework/zorg) robotics framework.
 
 # Roadmap
-- Addition of a [Zorg adapter](https://github.com/zorg-framework/zorg)
 - Integration with [Phant](https://data.sparkfun.com)
 - Integration with [Intel IOT Analytics](https://dashboard.us.enableiot.com)
