@@ -1,7 +1,35 @@
-Robot metrics (Analytics for your robot or IOT device) "Apps for IOT"
+# IOT Analytics
 
-# https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide
+**Analytics for your robot or IOT device**
 
-# TODO
-- Provide an method endpoint for getting serialized data
-- Send to Google Analytics if api key is provided
+This is a python module designed to provide the tools and resources needed to gather analytics for real-world objects and events. Analytics for online sites and services make it possible for developers to improve workflows and optimize the performance of web pages. The same techniques can be applied to tangible objects and events.
+
+There are many examples of programmers using services such as [Google Analytics](https://analytics.google.com) to track everything from doors opening in a home to trips to the store. Check out this [this great blog post](http://nicomiceli.com/tracking-your-home-with-google-analytics/) by Nico Miceli for an example.
+
+# Project design
+This module has two main components
+
+1. Recording data
+2. Data analysis
+
+# Recording data
+
+**Supported Endpoints**
+
+- [Google Analytics](https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide)
+- IOT Analytics - A custom solution built into this project that you can host your self
+
+# Data analysis
+
+Analytics is the discovery and communication of meaningful patterns in data. It is not possible for humans to easily extract meaning from a collection of billions of database entries. The goal of the data analysis portion of this project is to provide tools that make it easier to view and process data in a way that makes data features and trends more apparent.
+
+## Installation
+
+```
+pip install iot-analytics
+```
+
+# Roadmap
+- Addition of a [Zorg adapter](https://github.com/zorg-framework/zorg)
+- Integration with [Phant](https://data.sparkfun.com)
+- Integration with [Intel IOT Analytics](https://dashboard.us.enableiot.com)
