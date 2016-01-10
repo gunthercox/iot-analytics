@@ -18,41 +18,6 @@ class BaseAnalyticsDriver(Driver):
         raise Exception("This method needs to be implemented by a child class")
 
 
-class Event(BaseAnalyticsDriver):
-    """
-    Driver for generic events.
-    """
-
-    def __init__(self, options, connection):
-        super(Event, self).__init__(options, connection)
-
-        self.TYPE = 'event'
-
-    def send(self, **kwargs):
-        details = {}
-
-        category = kwargs.get("category", None)
-        if category:
-            details["ec"] = category
-
-        action = kwargs.get("action", None)
-        if action:
-            details["ea"] = action
-
-        label = kwargs.get("label", None)
-        if label:
-            details["el"] = label
-
-        value = kwargs.get("value", 0)
-        if value:
-            details["ev"] = value
-
-        if self.device_id:
-            details["device_id"] = self.device_id
-
-        return self.connection.http_send(self.TYPE, **details)
-
-
 class Error(BaseAnalyticsDriver):
     """
     Driver for exception and error reporting.
@@ -122,7 +87,7 @@ class ApiHit(BaseAnalyticsDriver):
 class BatteryPerformance(BaseAnalyticsDriver):
     """
     Track the voltage level of the battery
-    over time. Note when chatging and discharging.
+    over time. Note when charging and discharging.
     """
     pass
 

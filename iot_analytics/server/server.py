@@ -2,6 +2,7 @@ from tornado_cors import CorsMixin
 from tornado.web import Application, RequestHandler
 from tornado.ioloop import IOLoop
 from tornado import escape
+from iot_analytics.models import get_model_for_type
 
 
 class MainHandler(CorsMixin, RequestHandler):
@@ -18,14 +19,14 @@ class MainHandler(CorsMixin, RequestHandler):
 
         data = escape.json_decode(self.request.body)
 
-        # Get the tracking id from the request
         tracking_id = data.pop("id", None)
-
-        # Get the type from the request
         event_type = data.pop("type", None)
+        Obj = get_model_for_type(event_type)
 
-        if tracking_id and event_type:
-            self.database.add(tracking_id, event_type, data)
+        obj = Obj(tracking_id, event_type, data)
+
+        if obj.is_valid():
+            self.database.add(obj)
 
 def make_database():
     from iot_analytics.interfaces import FileStorageInterface

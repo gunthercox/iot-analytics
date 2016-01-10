@@ -8,7 +8,7 @@ class FileStorageInterface(StorageInterface):
     def initialize(self):
         self.storage = TinyDB('./db.json')
 
-    def add(self, tracking_id, event_type, data):
+    def add(self, event):
         """
         Add an event object to storage.
         """
@@ -16,9 +16,9 @@ class FileStorageInterface(StorageInterface):
             return False
 
         self.storage.insert({
-            'id': tracking_id,
-            'type': event_type,
+            'id': event.id,
+            'type': event.type,
             'date': datetime.now(),
-            'data': data
+            'data': event.data
         })
 
