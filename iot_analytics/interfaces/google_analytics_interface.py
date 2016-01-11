@@ -16,18 +16,15 @@ class GoogleAnalyticsInterface(StorageInterface):
         # Remove the read permission
         self.permissions.remove('read')
 
-    def serialize(self, client, obj):
-        data = {
-            'property_id': self.property_id,
-            'client_id': self.client_id,
-            'version': self.version
-        }
+    def serialize(self, obj):
 
         if obj.type is 'event':
-            serializes_event = google_analytics.serialize_event(client, obj)
-            data.update(serializes_event)
+            return google_analytics.serialize_event(self, obj)
 
-        return data        
+        if obj.type is 'error':
+            return google_analytics.serialize_error(self, obj)
+
+        return {}        
 
     def add(self, event):
         """

@@ -23,9 +23,9 @@ class GoogleAnalytics(Adaptor):
         """
         Sends a data payload to the data connection.
         """
-        serialized = self.google_analytics.serialize(
-            self.google_analytics,
-            event
-        )
+        serialized = self.google_analytics.serialize(event)
+        response = requests.post(self.host, data=serialized)
 
-        return requests.post(self.host, data=serialized)
+        response.json = serialized
+
+        return response

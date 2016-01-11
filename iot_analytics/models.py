@@ -43,8 +43,24 @@ class Event(BaseEvent):
         self.data = self.clean_data(data)
 
 
+class Error(BaseEvent):
+
+    def __init__(self, property_id, data):
+        self.property_id = property_id
+        self.type = 'error'
+
+        self.fields = (
+            'device_id',
+            'description',
+            'is_fatal',
+        )
+
+        self.data = self.clean_data(data)
+
+
 EVENT_TYPES = {
     'event': Event,
+    'error': Error
 }
 
 
