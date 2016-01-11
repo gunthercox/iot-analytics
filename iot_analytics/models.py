@@ -75,10 +75,27 @@ class Timing(BaseEvent):
         self.data = self.clean_data(data)
 
 
+class ApiHit(BaseEvent):
+
+    def __init__(self, property_id, data):
+        self.property_id = property_id
+        self.type = 'hit'
+
+        self.fields = (
+            'device_id',
+            'hostname',
+            'path',
+            'title',
+        )
+
+        self.data = self.clean_data(data)
+
+
 EVENT_TYPES = {
     'event': Event,
     'error': Error,
-    'timing': Timing
+    'timing': Timing,
+    'hit': ApiHit
 }
 
 

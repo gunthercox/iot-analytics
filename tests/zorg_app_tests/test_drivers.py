@@ -1,7 +1,7 @@
 from unittest import TestCase
 from iot_analytics.apps.zorg.adaptors import GoogleAnalytics
 from iot_analytics.apps.zorg.drivers import (
-    Event, Error, Timing
+    Event, Error, Timing, ApiHit
 )
 
 
@@ -70,3 +70,26 @@ class TestTiming(TestCase):
         self.assertIn('utv', response.json)
         self.assertIn('utt', response.json)
         self.assertIn('utl', response.json)
+
+
+class TestHit(TestCase):
+
+    def setUp(self):
+        options = {
+            'property_id': 'UA-12573345-12',
+            'client_id': 'd944d45c-9c92-46a2-97be-9ba07d922227',
+        }
+        self.connection = GoogleAnalytics(options)
+        self.driver = ApiHit(options, self.connection)
+
+    def test_send(self):
+        response = self.driver.send(
+            hostname='salvius.org',
+            path='/api/testing',
+            title='homepage'
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('dh', response.json)
+        self.assertIn('dp', response.json)
+        self.assertIn('dt', response.json)

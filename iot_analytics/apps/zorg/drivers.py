@@ -62,3 +62,20 @@ class Timing(AnalyticDriver):
         )
 
         return self.connection.http_send(response_time)
+
+
+class ApiHit(AnalyticDriver):
+    """
+    Record the value of the amount of time taken to
+    process and return a given response.
+    """
+
+    def send(self, **kwargs):
+        from iot_analytics.models import ApiHit as IOTApiHit
+
+        hit = IOTApiHit(
+            self.connection.google_analytics.property_id,
+            kwargs
+        )
+
+        return self.connection.http_send(hit)

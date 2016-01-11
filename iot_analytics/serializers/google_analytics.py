@@ -24,6 +24,7 @@ def serialize_event(client, event):
 
     return serialized
 
+
 def serialize_error(client, event):
     serialized = {}
 
@@ -38,6 +39,7 @@ def serialize_error(client, event):
 
     return serialized
 
+
 def serialize_timing(client, event):
     serialized = {}
 
@@ -48,15 +50,39 @@ def serialize_timing(client, event):
     serialized['cd'] = client.client_id
 
     if 'category' in event.data:
-        serialized["utc"] = event.data.get('category')
+        serialized['utc'] = event.data.get('category')
 
     if 'name' in event.data:
-        serialized["utv"] = event.data.get('name')
+        serialized['utv'] = event.data.get('name')
 
     if 'time' in event.data:
-        serialized["utt"] = event.data.get('time')
+        serialized['utt'] = event.data.get('time')
 
     if 'label' in event.data:
-        serialized["utl"] = event.data.get('label')
+        serialized['utl'] = event.data.get('label')
 
     return serialized
+
+
+def serialize_hit(client, event):
+    serialized = {}
+
+    serialized['t'] = 'pageview'
+    serialized['v'] = client.version
+    serialized['tid'] = client.property_id
+    serialized['cid'] = client.client_id
+    serialized['cd'] = client.client_id
+
+    if 'hostname' in event.data:
+        serialized['dh'] = event.data.get('hostname')
+
+    if 'path' in event.data:
+        serialized['dp'] = event.data.get('path')
+
+    if 'title' in event.data:
+        serialized['dt'] = event.data.get('title')
+
+    return serialized
+
+
+
