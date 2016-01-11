@@ -37,3 +37,26 @@ def serialize_error(client, event):
     serialized['exf'] = event.data.get('is_fatal', 0)
 
     return serialized
+
+def serialize_timing(client, event):
+    serialized = {}
+
+    serialized['t'] = 'timing'
+    serialized['v'] = client.version
+    serialized['tid'] = client.property_id
+    serialized['cid'] = client.client_id
+    serialized['cd'] = client.client_id
+
+    if 'category' in event.data:
+        serialized["utc"] = event.data.get('category')
+
+    if 'name' in event.data:
+        serialized["utv"] = event.data.get('name')
+
+    if 'time' in event.data:
+        serialized["utt"] = event.data.get('time')
+
+    if 'label' in event.data:
+        serialized["utl"] = event.data.get('label')
+
+    return serialized

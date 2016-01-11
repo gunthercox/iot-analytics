@@ -2,6 +2,9 @@
 
 **Analytics for your robot or IOT device**
 
+[![Package Version](https://img.shields.io/pypi/v/iot-analytics.svg)](https://pypi.python.org/pypi/iot-analytics/)
+[![Build Status](https://travis-ci.org/gunthercox/iot-analytics.svg?branch=master)](https://travis-ci.org/gunthercox/iot-analytics)
+
 This is a python module designed to provide the tools and resources needed to gather analytics for real-world objects and events. Analytics for online sites and services make it possible for developers to improve workflows and optimize the performance of web pages. The same techniques can be applied to tangible objects and events.
 
 There are many examples of programmers using services such as [Google Analytics](https://analytics.google.com) to track everything from doors opening in a home to trips to the store. Check out this [this great blog post](http://nicomiceli.com/tracking-your-home-with-google-analytics/) by Nico Miceli for an example.

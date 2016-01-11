@@ -23,7 +23,10 @@ class Event(AnalyticDriver):
     def send(self, **kwargs):
         from iot_analytics.models import Event as IOTEvent
 
-        event = IOTEvent(self.connection.google_analytics.property_id, kwargs)
+        event = IOTEvent(
+            self.connection.google_analytics.property_id,
+            kwargs
+        )
 
         return self.connection.http_send(event)
 
@@ -36,6 +39,26 @@ class Error(AnalyticDriver):
     def send(self, **kwargs):
         from iot_analytics.models import Error as IOTError
 
-        error = IOTError(self.connection.google_analytics.property_id, kwargs)
+        error = IOTError(
+            self.connection.google_analytics.property_id,
+            kwargs
+        )
 
         return self.connection.http_send(error)
+
+
+class Timing(AnalyticDriver):
+    """
+    Record the value of the amount of time taken to
+    process and return a given response.
+    """
+
+    def send(self, **kwargs):
+        from iot_analytics.models import Timing as IOTTiming
+
+        response_time = IOTTiming(
+            self.connection.google_analytics.property_id,
+            kwargs
+        )
+
+        return self.connection.http_send(response_time)

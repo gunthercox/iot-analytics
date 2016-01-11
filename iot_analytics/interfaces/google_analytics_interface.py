@@ -24,6 +24,9 @@ class GoogleAnalyticsInterface(StorageInterface):
         if obj.type is 'error':
             return google_analytics.serialize_error(self, obj)
 
+        if obj.type is 'timing':
+            return google_analytics.serialize_timing(self, obj)
+
         return {}        
 
     def add(self, event):
