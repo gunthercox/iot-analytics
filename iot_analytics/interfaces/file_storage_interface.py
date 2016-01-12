@@ -1,12 +1,23 @@
 from .storage_interface import StorageInterface
 from tinydb import TinyDB, Query
-from datetime import datetime
 
 
 class FileStorageInterface(StorageInterface):
 
     def initialize(self):
         self.storage = TinyDB('./db.json')
+
+    def timestamp(self):
+        import datetime
+        import json
+
+        encoding = lambda obj: (
+            obj.isoformat()
+            if isinstance(obj, datetime.datetime)
+            or isinstance(obj, datetime.date)
+            else None
+        )
+        return json.dumps({'date': datetime.datetime.now()}, default=encoding)
 
     def add(self, event):
         """
@@ -18,7 +29,7 @@ class FileStorageInterface(StorageInterface):
         data = {
             'id': event.property_id,
             'type': event.type,
-            'date': datetime.now()
+            'date': self.timestamp()
         }
 
         data.update(event.data)

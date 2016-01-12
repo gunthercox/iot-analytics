@@ -33,7 +33,7 @@ class GoogleAnalyticsInterface(StorageInterface):
         if obj.type is 'hit':
             return google_analytics.serialize_hit(self, obj)
 
-        return {}        
+        return {}
 
     def add(self, event):
         """
