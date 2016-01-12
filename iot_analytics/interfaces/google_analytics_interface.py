@@ -1,11 +1,14 @@
 from .storage_interface import StorageInterface
 from iot_analytics.serializers import google_analytics
+import requests
 
 
 class GoogleAnalyticsInterface(StorageInterface):
 
     def __init__(self, property_id, client_id, version=1):
         super(GoogleAnalyticsInterface, self).__init__()
+
+        self.host = "http://www.google-analytics.com/collect"
 
         self.property_id = property_id
         self.client_id = client_id
@@ -39,11 +42,9 @@ class GoogleAnalyticsInterface(StorageInterface):
         if not self.can('write'):
             return False
 
-        data = {
-            'id': event.property_id,
-            'type': event.type
-        }
+        serialized = self.serialize(event)
+        response = requests.post(self.host, data=serialized)
 
-        data.update(event.data)
+        response.json = serialized
 
-        self.storage.insert(data)
+        return response
