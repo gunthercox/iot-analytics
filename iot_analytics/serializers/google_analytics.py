@@ -1,11 +1,18 @@
-def serialize_event(client, event):
+def serialize(client, event):
     serialized = {}
 
-    serialized['t'] = 'event'
     serialized['v'] = client.version
     serialized['tid'] = client.property_id
     serialized['cid'] = client.client_id
     serialized['cd'] = client.client_id
+
+    return serialized
+
+
+def serialize_event(client, event):
+    serialized = serialize(client, event)
+
+    serialized['t'] = 'event'
 
     if 'device_id' in event.data:
         serialized['device_id'] = event.data.get('device_id')
@@ -26,13 +33,9 @@ def serialize_event(client, event):
 
 
 def serialize_error(client, event):
-    serialized = {}
+    serialized = serialize(client, event)
 
     serialized['t'] = 'exception'
-    serialized['v'] = client.version
-    serialized['tid'] = client.property_id
-    serialized['cid'] = client.client_id
-    serialized['cd'] = client.client_id
 
     serialized['exd'] = event.data.get('description', 'Exception')
     serialized['exf'] = event.data.get('is_fatal', 0)
@@ -41,13 +44,9 @@ def serialize_error(client, event):
 
 
 def serialize_timing(client, event):
-    serialized = {}
+    serialized = serialize(client, event)
 
     serialized['t'] = 'timing'
-    serialized['v'] = client.version
-    serialized['tid'] = client.property_id
-    serialized['cid'] = client.client_id
-    serialized['cd'] = client.client_id
 
     if 'category' in event.data:
         serialized['utc'] = event.data.get('category')
@@ -65,13 +64,9 @@ def serialize_timing(client, event):
 
 
 def serialize_hit(client, event):
-    serialized = {}
+    serialized = serialize(client, event)
 
     serialized['t'] = 'pageview'
-    serialized['v'] = client.version
-    serialized['tid'] = client.property_id
-    serialized['cid'] = client.client_id
-    serialized['cd'] = client.client_id
 
     if 'hostname' in event.data:
         serialized['dh'] = event.data.get('hostname')
@@ -83,6 +78,3 @@ def serialize_hit(client, event):
         serialized['dt'] = event.data.get('title')
 
     return serialized
-
-
-

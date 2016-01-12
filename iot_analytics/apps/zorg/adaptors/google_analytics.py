@@ -1,14 +1,11 @@
 from zorg.adaptor import Adaptor
 from iot_analytics.interfaces import GoogleAnalyticsInterface
-import requests
 
 
 class GoogleAnalytics(Adaptor):
 
     def __init__(self, options):
         super(GoogleAnalytics, self).__init__(options)
-
-        self.host = "http://www.google-analytics.com/collect"
 
         # Required parameters for each payload
         property_id = options.get("property_id", "UA-XXXX-Y")
@@ -23,9 +20,4 @@ class GoogleAnalytics(Adaptor):
         """
         Sends a data payload to the data connection.
         """
-        serialized = self.google_analytics.serialize(event)
-        response = requests.post(self.host, data=serialized)
-
-        response.json = serialized
-
-        return response
+        return self.google_analytics.add(event)
