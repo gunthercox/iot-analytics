@@ -1,13 +1,16 @@
 class StorageInterface(object):
+    """
+    This base class should be subclassed by all other storage interfaces.
+    """
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         # Assume read and write permissions by default
         self.permissions = [
             "read",
             "write",
         ]
 
-        self.initialize()
+        self.initialize(**kwargs)
 
     def can(self, permission):
         """
@@ -15,11 +18,17 @@ class StorageInterface(object):
         """
         return permission in self.permissions
 
-    def initialize(self):
+    def initialize(self, **kwargs):
         """
         This method should be overridden by a subclass.
         """
         raise NotImplementedError(
-            "The mthod `initialize` should "
+            "The method `initialize` should "
             "be overridden by a subclass."
         )
+
+    def timestamp(self):
+        from datetime import datetime
+        import json
+
+        return json.dumps({'date': datetime.now()}, default=datetime.isoformat)

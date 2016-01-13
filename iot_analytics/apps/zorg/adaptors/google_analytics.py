@@ -9,11 +9,11 @@ class GoogleAnalytics(Adaptor):
 
         # Required parameters for each payload
         property_id = options.get("property_id", "UA-XXXX-Y")
-        client_id = options.get("client_id", 555)
-        version = options.get("version", 1)
+        client_id = options.get("client_id", '555')
 
         self.google_analytics = GoogleAnalyticsInterface(
-            property_id, client_id, version
+            property_id=property_id,
+            client_id=client_id
         )
 
     def http_send(self, event):

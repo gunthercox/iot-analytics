@@ -5,16 +5,13 @@ import requests
 
 class GoogleAnalyticsInterface(StorageInterface):
 
-    def __init__(self, property_id, client_id, version=1):
-        super(GoogleAnalyticsInterface, self).__init__()
+    def initialize(self, **kwargs):
 
         self.host = "http://www.google-analytics.com/collect"
 
-        self.property_id = property_id
-        self.client_id = client_id
-        self.version = version
-
-    def initialize(self):
+        self.property_id = kwargs.get('property_id')
+        self.client_id = kwargs.get('client_id')
+        self.version = kwargs.get('version', 1)
 
         # Remove the read permission
         self.permissions.remove('read')

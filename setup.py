@@ -15,7 +15,7 @@ maintainer = __import__('iot_analytics').__maintainer__
 maintainer_email = __import__('iot_analytics').__email__
 
 setup(
-    name="IOT Analytics",
+    name="IOT-Analytics",
     version=version,
     url="https://github.com/gunthercox/iot-analytics",
     setup_requires=['setuptools-markdown'],
