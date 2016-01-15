@@ -12,7 +12,7 @@ There are many examples of programmers using services such as [Google Analytics]
 ## Installation
 
 ```
-pip install iot-analytics
+pip install iot_analytics
 ```
 
 # Project design
@@ -34,7 +34,7 @@ Analytics is the discovery and communication of meaningful patterns in data. It 
 
 # Apps
 
-This project includes an `apps` submodule which adds support for integration
+This project includes an `apps` module which adds support for integration
 with the [Zorg](https://github.com/zorg-framework/zorg) robotics framework.
 
 # Roadmap

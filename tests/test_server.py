@@ -18,7 +18,7 @@ class ApiServerTestCase(AsyncHTTPTestCase):
         })
         response = self.fetch('/', method="POST", body=data)
         self.assertEqual(response.code, 200)
-        self.assertEqual(response.body, '')
+        self.assertEqual(len(response.body), 0)
 
     def test_post_no_type(self):
         data = tornado.escape.json_encode({
@@ -26,7 +26,7 @@ class ApiServerTestCase(AsyncHTTPTestCase):
         })
         response = self.fetch('/', method="POST", body=data)
         self.assertEqual(response.code, 200)
-        self.assertEqual(response.body, '')
+        self.assertEqual(len(response.body), 0)
 
     def test_post_no_id(self):
         data = tornado.escape.json_encode({
@@ -34,5 +34,5 @@ class ApiServerTestCase(AsyncHTTPTestCase):
         })
         response = self.fetch('/', method="POST", body=data)
         self.assertEqual(response.code, 200)
-        self.assertEqual(response.body, '')
+        self.assertEqual(len(response.body), 0)
 
