@@ -15,9 +15,19 @@ class MainHandler(CorsMixin, RequestHandler):
         self.write({})
 
     def post(self):
-        self.set_header("Content-Type", "application/json")
+        import urlparse
 
-        data = escape.json_decode(self.request.body)
+        content_type = self.request.headers.get('Content-Type')
+
+        if 'form-urlencoded' in content_type:
+            parsed = urlparse.parse_qs(self.request.body)
+            data = {}
+
+            # Normalize the urldecoded data
+            for p in parsed:
+                data[p] = parsed[p][0]
+        else:
+            data = escape.json_decode(self.request.body)
 
         if "type" in data:
             tracking_id = data.pop("id", None)
