@@ -27,6 +27,10 @@ class Serializer(object):
             else:
                 serialized[remote] = event.data.get(local)
 
+            # Remove attribute from serialized data if value is none
+            if serialized[remote] is None:
+                serialized.pop(remote)
+
         return serialized
 
     def deserialize(self, event_data):

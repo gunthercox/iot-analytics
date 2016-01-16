@@ -20,11 +20,26 @@ class TestEvent(TestCase):
             category='button',
             action='pressed',
             label='momentary',
-            value='30'
+            value=30
         )
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json['ec'], 'button')
+        self.assertEqual(response.json['ea'], 'pressed')
+        self.assertEqual(response.json['el'], 'momentary')
+        self.assertEqual(response.json['ev'], 30)
+
+    def test_only_required_attributes(self):
+        response = self.driver.send(
+            category='button',
+            action='pressed'
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json['ec'], 'button')
+        self.assertEqual(response.json['ea'], 'pressed')
+        self.assertNotIn('el', response.json)
+        self.assertNotIn('ev', response.json)
 
 
 class TestError(TestCase):

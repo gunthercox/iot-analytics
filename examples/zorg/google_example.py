@@ -3,7 +3,7 @@ import time
 
 def work (robot):
 
-    # Toggle the led
+    # Send a button pressed event
     robot.touch_sensor.send(
         category='button',
         action='pressed',
