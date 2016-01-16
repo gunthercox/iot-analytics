@@ -1,80 +1,93 @@
-def serialize(client, event):
-    serialized = {}
+class Serializer(object):
 
-    serialized['v'] = client.version
-    serialized['tid'] = client.property_id
-    serialized['cid'] = client.client_id
-    serialized['cd'] = client.client_id
+    def serialize(self, client, event):
+        serialized = {}
 
-    return serialized
+        serialized['v'] = client.version
+        serialized['tid'] = client.property_id
+        serialized['cid'] = client.client_id
+        serialized['cd'] = client.client_id
 
+        return serialized
 
-def serialize_event(client, event):
-    serialized = serialize(client, event)
-
-    serialized['t'] = 'event'
-
-    if 'device_id' in event.data:
-        serialized['device_id'] = event.data.get('device_id')
-
-    if 'category' in event.data:
-        serialized['ec'] = event.data.get('category')
-
-    if 'action' in event.data:
-        serialized['ea'] = event.data.get('action')
-
-    if 'label' in event.data:
-        serialized['el'] = event.data.get('label')
-
-    if 'value' in event.data:
-        serialized['ev'] = event.data.get('value')
-
-    return serialized
+    def deserialize(self, event_data):
+        pass
 
 
-def serialize_error(client, event):
-    serialized = serialize(client, event)
+class EventSerializer(Serializer):
 
-    serialized['t'] = 'exception'
+    def serialize(self, client, event):
+        serialized = super(EventSerializer, self).serialize(client, event)
 
-    serialized['exd'] = event.data.get('description', 'Exception')
-    serialized['exf'] = event.data.get('is_fatal', 0)
+        serialized['t'] = 'event'
 
-    return serialized
+        if 'device_id' in event.data:
+            serialized['device_id'] = event.data.get('device_id')
 
+        if 'category' in event.data:
+            serialized['ec'] = event.data.get('category')
 
-def serialize_timing(client, event):
-    serialized = serialize(client, event)
+        if 'action' in event.data:
+            serialized['ea'] = event.data.get('action')
 
-    serialized['t'] = 'timing'
+        if 'label' in event.data:
+            serialized['el'] = event.data.get('label')
 
-    if 'category' in event.data:
-        serialized['utc'] = event.data.get('category')
+        if 'value' in event.data:
+            serialized['ev'] = event.data.get('value')
 
-    if 'name' in event.data:
-        serialized['utv'] = event.data.get('name')
-
-    if 'time' in event.data:
-        serialized['utt'] = event.data.get('time')
-
-    if 'label' in event.data:
-        serialized['utl'] = event.data.get('label')
-
-    return serialized
+        return serialized
 
 
-def serialize_hit(client, event):
-    serialized = serialize(client, event)
+class ErrorSerializer(Serializer):
 
-    serialized['t'] = 'pageview'
+    def serialize(self, client, event):
+        serialized = super(ErrorSerializer, self).serialize(client, event)
 
-    if 'hostname' in event.data:
-        serialized['dh'] = event.data.get('hostname')
+        serialized['t'] = 'exception'
 
-    if 'path' in event.data:
-        serialized['dp'] = event.data.get('path')
+        serialized['exd'] = event.data.get('description', 'Exception')
+        serialized['exf'] = event.data.get('is_fatal', 0)
 
-    if 'title' in event.data:
-        serialized['dt'] = event.data.get('title')
+        return serialized
 
-    return serialized
+
+class TimingSerializer(Serializer):
+
+    def serialize(self, client, event):
+        serialized = super(TimingSerializer, self).serialize(client, event)
+
+        serialized['t'] = 'timing'
+
+        if 'category' in event.data:
+            serialized['utc'] = event.data.get('category')
+
+        if 'name' in event.data:
+            serialized['utv'] = event.data.get('name')
+
+        if 'time' in event.data:
+            serialized['utt'] = event.data.get('time')
+
+        if 'label' in event.data:
+            serialized['utl'] = event.data.get('label')
+
+        return serialized
+
+
+class HitSerializer(Serializer):
+
+    def serialize(self, client, event):
+        serialized = super(HitSerializer, self).serialize(client, event)
+
+        serialized['t'] = 'pageview'
+
+        if 'hostname' in event.data:
+            serialized['dh'] = event.data.get('hostname')
+
+        if 'path' in event.data:
+            serialized['dp'] = event.data.get('path')
+
+        if 'title' in event.data:
+            serialized['dt'] = event.data.get('title')
+
+        return serialized

@@ -19,16 +19,20 @@ class GoogleAnalyticsInterface(StorageInterface):
     def serialize(self, obj):
 
         if obj.type is 'event':
-            return google_analytics.serialize_event(self, obj)
+            serializer = google_analytics.EventSerializer()
+            return serializer.serialize(self, obj)
 
         if obj.type is 'error':
-            return google_analytics.serialize_error(self, obj)
+            serializer = google_analytics.ErrorSerializer()
+            return serializer.serialize(self, obj)
 
         if obj.type is 'timing':
-            return google_analytics.serialize_timing(self, obj)
+            serializer = google_analytics.TimingSerializer()
+            return serializer.serialize(self, obj)
 
         if obj.type is 'hit':
-            return google_analytics.serialize_hit(self, obj)
+            serializer = google_analytics.HitSerializer()
+            return serializer.serialize(self, obj)
 
         return {}
 
