@@ -4,6 +4,7 @@
 
 [![Package Version](https://img.shields.io/pypi/v/iot-analytics.svg)](https://pypi.python.org/pypi/iot-analytics/)
 [![Build Status](https://travis-ci.org/gunthercox/iot-analytics.svg?branch=master)](https://travis-ci.org/gunthercox/iot-analytics)
+[![Coverage Status](https://coveralls.io/repos/gunthercox/iot-analytics/badge.svg?branch=master&service=github)](https://coveralls.io/github/gunthercox/iot-analytics?branch=master)
 
 This is a python module designed to provide the tools and resources needed to gather analytics for real-world objects and events. Analytics for online sites and services make it possible for developers to improve workflows and optimize the performance of web pages. The same techniques can be applied to tangible objects and events.
 

@@ -5,7 +5,11 @@ python:
   - '2.7'
 
 install:
+  - pip install coveralls
   - pip install -r requirements.txt
 
 script:
-  - nosetests
+  - nosetests  --with-coverage --cover-package=iot_analytics
+
+after_success:
+  - coveralls
