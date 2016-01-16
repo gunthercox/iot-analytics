@@ -1,8 +1,8 @@
 from tornado_cors import CorsMixin
 from tornado.web import Application, RequestHandler
 from tornado.ioloop import IOLoop
-from tornado import escape
 from iot_analytics.models import get_model_for_type
+from iot_analytics.server import utils
 
 
 class MainHandler(CorsMixin, RequestHandler):
@@ -15,19 +15,9 @@ class MainHandler(CorsMixin, RequestHandler):
         self.write({})
 
     def post(self):
-        import urlparse
-
         content_type = self.request.headers.get('Content-Type')
 
-        if 'form-urlencoded' in content_type:
-            parsed = urlparse.parse_qs(self.request.body)
-            data = {}
-
-            # Normalize the urldecoded data
-            for p in parsed:
-                data[p] = parsed[p][0]
-        else:
-            data = escape.json_decode(self.request.body)
+        data = utils.normalize_body(content_type, self.request.body)
 
         if "type" in data:
             tracking_id = data.pop("id", None)
