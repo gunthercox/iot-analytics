@@ -39,5 +39,6 @@ This project includes an `apps` module which adds support for integration
 with the [Zorg](https://github.com/zorg-framework/zorg) robotics framework.
 
 # Roadmap
+- Add data analysis features for hosted storage
 - Integration with [Phant](https://data.sparkfun.com)
 - Integration with [Intel IOT Analytics](https://dashboard.us.enableiot.com)

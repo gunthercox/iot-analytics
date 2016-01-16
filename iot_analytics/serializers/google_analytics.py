@@ -1,5 +1,12 @@
 class Serializer(object):
 
+    def __init__(self):
+        self.defaults = {}
+        self.mapping = set()
+
+        self.mapping.add(('device_id', 'device_id'))
+        self.mapping.add(('type', 't'))
+
     def serialize(self, client, event):
         serialized = {}
 
@@ -7,6 +14,18 @@ class Serializer(object):
         serialized['tid'] = client.property_id
         serialized['cid'] = client.client_id
         serialized['cd'] = client.client_id
+
+        for pair in self.mapping:
+            local = pair[0]
+            remote = pair[1]
+
+            if local in self.defaults:
+                serialized[remote] = event.data.get(
+                    local,
+                    self.defaults[local]
+                )
+            else:
+                serialized[remote] = event.data.get(local)
 
         return serialized
 
@@ -16,78 +35,58 @@ class Serializer(object):
 
 class EventSerializer(Serializer):
 
-    def serialize(self, client, event):
-        serialized = super(EventSerializer, self).serialize(client, event)
+    def __init__(self):
+        super(EventSerializer, self).__init__()
 
-        serialized['t'] = 'event'
-
-        if 'device_id' in event.data:
-            serialized['device_id'] = event.data.get('device_id')
-
-        if 'category' in event.data:
-            serialized['ec'] = event.data.get('category')
-
-        if 'action' in event.data:
-            serialized['ea'] = event.data.get('action')
-
-        if 'label' in event.data:
-            serialized['el'] = event.data.get('label')
-
-        if 'value' in event.data:
-            serialized['ev'] = event.data.get('value')
-
-        return serialized
+        self.mapping.add(('category', 'ec'))
+        self.mapping.add(('action', 'ea'))
+        self.mapping.add(('label', 'el'))
+        self.mapping.add(('value', 'ev'))
 
 
 class ErrorSerializer(Serializer):
+
+    def __init__(self):
+        super(ErrorSerializer, self).__init__()
+
+        self.defaults['description'] = 'Exception'
+        self.defaults['is_fatal'] = 0
+
+        self.mapping.add(('type', 't'))
+        self.mapping.add(('description', 'exd'))
+        self.mapping.add(('is_fatal', 'exf'))
 
     def serialize(self, client, event):
         serialized = super(ErrorSerializer, self).serialize(client, event)
 
         serialized['t'] = 'exception'
 
-        serialized['exd'] = event.data.get('description', 'Exception')
-        serialized['exf'] = event.data.get('is_fatal', 0)
-
         return serialized
 
 
 class TimingSerializer(Serializer):
 
-    def serialize(self, client, event):
-        serialized = super(TimingSerializer, self).serialize(client, event)
+    def __init__(self):
+        super(TimingSerializer, self).__init__()
 
-        serialized['t'] = 'timing'
-
-        if 'category' in event.data:
-            serialized['utc'] = event.data.get('category')
-
-        if 'name' in event.data:
-            serialized['utv'] = event.data.get('name')
-
-        if 'time' in event.data:
-            serialized['utt'] = event.data.get('time')
-
-        if 'label' in event.data:
-            serialized['utl'] = event.data.get('label')
-
-        return serialized
+        self.mapping.add(('category', 'utc'))
+        self.mapping.add(('name', 'utv'))
+        self.mapping.add(('time', 'utt'))
+        self.mapping.add(('label', 'utl'))
 
 
 class HitSerializer(Serializer):
+
+    def __init__(self):
+        super(HitSerializer, self).__init__()
+
+        self.mapping.add(('hostname', 'dh'))
+        self.mapping.add(('path', 'dp'))
+        self.mapping.add(('title', 'dt'))
 
     def serialize(self, client, event):
         serialized = super(HitSerializer, self).serialize(client, event)
 
         serialized['t'] = 'pageview'
-
-        if 'hostname' in event.data:
-            serialized['dh'] = event.data.get('hostname')
-
-        if 'path' in event.data:
-            serialized['dp'] = event.data.get('path')
-
-        if 'title' in event.data:
-            serialized['dt'] = event.data.get('title')
 
         return serialized

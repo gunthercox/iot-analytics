@@ -42,6 +42,9 @@ class Event(BaseEvent):
 
         self.data = self.clean_data(data)
 
+        # Add the type to the data
+        self.data['type'] = self.type
+
 
 class Error(BaseEvent):
 
@@ -56,6 +59,9 @@ class Error(BaseEvent):
         )
 
         self.data = self.clean_data(data)
+
+        # Add the type to the data
+        self.data['type'] = self.type
 
 
 class Timing(BaseEvent):
@@ -74,6 +80,9 @@ class Timing(BaseEvent):
 
         self.data = self.clean_data(data)
 
+        # Add the type to the data
+        self.data['type'] = self.type
+
 
 class ApiHit(BaseEvent):
 
@@ -89,6 +98,9 @@ class ApiHit(BaseEvent):
         )
 
         self.data = self.clean_data(data)
+
+        # Add the type to the data
+        self.data['type'] = self.type
 
 
 EVENT_TYPES = {
