@@ -22,6 +22,8 @@ This module has two main components
 1. Recording data
 2. Data analysis
 
+![Program structure](https://docs.google.com/drawings/d/1YADVW9SALABGYiPmshEoD1b-sU6GFY7G6O4L7ce9eMo/pub?w=960&amp;h=720)
+
 # Recording data
 
 **Supported Endpoints**
@@ -36,7 +38,7 @@ Analytics is the discovery and communication of meaningful patterns in data. It 
 # Apps
 
 This project includes an `apps` module which adds support for integration
-with the [Zorg](https://github.com/zorg-framework/zorg) robotics framework.
+with the [Zorg](https://github.com/zorg/zorg) robotics framework.
 
 # Roadmap
 - Add data analysis features for hosted storage
